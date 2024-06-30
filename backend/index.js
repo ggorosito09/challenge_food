@@ -1,9 +1,13 @@
 import express from 'express';
 import axios from 'axios';
+import cors from 'cors'
 const app = express();
 const PORT = 3000;
 const APP_URL = 'https://data.sfgov.org/resource/rqzj-sfat.json'
 const APP_TOKEN = "F3ChZibCo6q64PmptV4pkxfwE"
+
+// Enabling CORS
+app.use(cors());
 
 app.get('/data', async (req, res) => {
     try {
