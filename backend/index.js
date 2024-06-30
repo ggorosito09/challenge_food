@@ -1,5 +1,5 @@
 import express from 'express';
-import { get } from 'axios';
+import axios from 'axios';
 const app = express();
 const PORT = 3000;
 const APP_URL = 'https://data.sfgov.org/resource/rqzj-sfat.json'
@@ -7,7 +7,7 @@ const APP_TOKEN = "F3ChZibCo6q64PmptV4pkxfwE"
 
 app.get('/data', async (req, res) => {
     try {
-        const response = await get(APP_URL, {
+        const response = await axios.get(APP_URL, {
             params: {
                 $limit: 5000,
                 $$app_token: APP_TOKEN // TODO : Set ENV later.
