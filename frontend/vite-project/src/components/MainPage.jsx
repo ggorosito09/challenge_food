@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { fetchData } from '../utils/fetchData';
 import MapView from './MapView';
 import TruckTable from './TruckTable';
-import './MainPage.css';
+import '../styles/MainPage.css';
 
 function MainPage() {
     const location = useLocation();
