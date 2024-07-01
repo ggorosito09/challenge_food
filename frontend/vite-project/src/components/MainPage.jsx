@@ -7,7 +7,8 @@ import './MainPage.css';
 
 function MainPage() {
     const location = useLocation();
-    const { query } = location.state || {};
+    const { query: initialQuery } = location.state || {};
+    const [query, setQuery] = useState(initialQuery);
     const [trucks, setTrucks] = useState([]);
 
     useEffect(() => {
@@ -15,29 +16,44 @@ function MainPage() {
             const data = await fetchData(query);
             setTrucks(data);
         };
+
         if (query) {
             getTrucks();
         }
     }, [query]);
 
+    const handleSearchChange = (e) => {
+        setQuery(e.target.value);
+    };
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        fetchData(query).then(data => setTrucks(data));
+    };
+
     return (
         <div className="main-container">
             <div className="input-table-container">
                 <div className="input-container">
-                    <input
-                        type="text"
-                        placeholder="I would like... Fried Chicken"
-                        defaultValue={query}
-                    // Handle search input change here if needed
-                    />
+                    <form onSubmit={handleSearchSubmit}>
+                        <input
+                            type="text"
+                            placeholder="I would like... Fried Chicken"
+                            value={query}
+                            onChange={handleSearchChange}
+                        />
+                        <button type="submit">Search</button>
+                    </form>
                 </div>
                 <div className="table-container">
                     <TruckTable trucks={trucks} />
                 </div>
             </div>
-            <div className="map-container">
-                <MapView trucks={trucks} />
-            </div>
+            {trucks.length > 0 && (
+                <div className="map-container">
+                    <MapView trucks={trucks} />
+                </div>
+            )}
         </div>
     );
 }
