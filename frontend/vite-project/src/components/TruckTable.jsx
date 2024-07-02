@@ -25,7 +25,7 @@ function TruckTable({ trucks, onRowClick }) {
             <TableCell>Applicant</TableCell>
             {/* <TableCell>Location Description</TableCell> */} 
             <TableCell>Food Items</TableCell>
-            <TableCell>Days/Hours</TableCell>
+            {/* <TableCell>Days/Hours</TableCell>*/} 
           </TableRow>
         </TableHead>
         <TableBody>
@@ -40,7 +40,7 @@ function TruckTable({ trucks, onRowClick }) {
                 <TableCell>{applicant}</TableCell>
                 {/* <TableCell>{locationdescription}</TableCell> */} 
                 <TableCell>{fooditems}</TableCell>
-                <TableCell>{dayshours}</TableCell>
+                {/* <TableCell>{dayshours}</TableCell>*/} 
               </TableRow>
             );
           })}
