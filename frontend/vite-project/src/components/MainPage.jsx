@@ -6,6 +6,7 @@ import MapView from './MapView';
 import TruckTable from './TruckTable';
 import '../styles/MainPage.css';
 import logo from '../assets/food-truck-logo.png';
+import chef from '../assets/food-truck-chef.png';
 
 function MainPage() {
     const location = useLocation();
@@ -50,9 +51,20 @@ function MainPage() {
                             onChange={handleSearchChange}
                         />
                     </div>
-                    <div className="table-container">
-                        <TruckTable trucks={trucks} onRowClick={handleRowClick} />
-                    </div>
+                    {trucks.length === 0 ? (
+                        <div className="header-container">
+                            <img src={chef} alt="Logo" className="logo-main" />
+                            <h5 className="title">Sorry we couldn't find anything</h5>
+                        </div>
+                    ) :
+                        (
+                            <div className="table-container">
+                                <TruckTable trucks={trucks} onRowClick={handleRowClick} />
+                            </div>
+                        )
+                    }
+
+
                 </div>
 
                 <div className="map-container">
