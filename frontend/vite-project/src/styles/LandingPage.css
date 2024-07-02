@@ -53,3 +53,8 @@
 .landing-container-form button:hover {
   background-color: #0056b3;
 }
+
+.landing-container-form button:disabled {
+  background-color: #103154;
+  cursor: not-allowed;
+}
