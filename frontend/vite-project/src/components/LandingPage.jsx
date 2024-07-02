@@ -4,11 +4,11 @@ import '../styles/LandingPage.css';
 import logo from '../assets/food-truck-logo.png';
 
 function LandingPage() {
-    const [input, setInput] = useState('');
+    const [foodWanted, setFoodWanted] = useState('');
     const navigate = useNavigate();
 
     const handleGoForEat = () => {
-        navigate('/main', { state: { query: input } });
+        navigate('/main', { state: { query: foodWanted } });
     };
 
     return (
@@ -23,12 +23,14 @@ function LandingPage() {
                     type="text"
                     id="food-search"
                     placeholder="I would like... Fried Chicken"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
+                    value={foodWanted}
+                    onChange={(e) => setFoodWanted(e.target.value)}
                 />
-                <button type="button" onClick={handleGoForEat}>
-                    Let's Go For EAAAAAAT
-                </button>
+                <div>
+                    <button type="button" onClick={handleGoForEat} disabled={foodWanted === ''}>
+                        {foodWanted === '' ? 'Waiting for your wishes...' : "Let's Go For EAAAAAAT"}
+                    </button>
+                </div>
             </form>
         </div>
     );
