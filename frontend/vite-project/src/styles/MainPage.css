@@ -45,21 +45,13 @@
     align-items: center;
 }
 
-input[type="text"] {
-    width: 100%;
+.input-container input[type="text"] {
+    width: 97.5%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #000;
     background-color: #000;
     color: #da4453;
-}
-
-button {
-    background-color: #ffce54;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
 }
 
 .table-container {
