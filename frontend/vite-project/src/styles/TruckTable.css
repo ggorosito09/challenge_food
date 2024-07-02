@@ -1,0 +1,7 @@
+.table-container {
+    height: 100%;
+}
+
+.table-container .MuiTableContainer-root {
+    max-height: calc(100vh - 250px);
+}

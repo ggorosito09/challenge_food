@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/LandingPage.css';
+import logo from '../assets/food-truck-logo.png';
 
 function LandingPage() {
     const [input, setInput] = useState('');
@@ -12,11 +13,11 @@ function LandingPage() {
 
     return (
         <div className="landing-container">
-            <div className="logo">
-                <img src="path-to-your-foodtruck-icon.png" alt="Food Truck Icon" />
+            <div className="logo-landing">
+                <img src={logo} alt="Food Truck Icon" />
                 <h1>Food Truck Finder</h1>
             </div>
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form className="landing-container-form" onSubmit={(e) => e.preventDefault()}>
                 <label htmlFor="food-search">What would you like to eat today?</label>
                 <input
                     type="text"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -35,17 +35,30 @@ const CurrentLocationMarker = () => {
   );
 };
 
-const MapView = ({ trucks }) => {
+const MapView = ({ trucks, selectedTruck }) => {
+  const mapRef = useRef();
   const defaultCenter = [37.7749, -122.4194]; // Default center for San Francisco
   // const center = useGeolocation(defaultCenter);
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (selectedTruck && mapRef.current) {
+      const { latitude, longitude } = selectedTruck.properties;
+      const position = [parseFloat(latitude), parseFloat(longitude)];
+      mapRef.current.setView(position, 15);
+  
+      mapRef.current.eachLayer((layer) => {
+        if (layer.getLatLng && layer.getLatLng().equals(position)) {
+          layer.openPopup();
+        }
+      });
+    }
+  
     if (trucks.length > 0) {
       setLoading(false);
     }
-  }, [trucks]);
+  }, [selectedTruck, trucks]);
 
   // TODO: Component extract to keep improving.
   const markers = trucks.map((truck, idx) => {
@@ -77,7 +90,7 @@ const MapView = ({ trucks }) => {
           <div className="loader"></div>
         </div>
       )}
-      <MapContainer center={[37.7749, -122.4194]} zoom={12} style={{ width: '100%', height: '100%' }}>
+      <MapContainer center={[37.7749, -122.4194]} zoom={12} style={{ width: '100%', height: '100%' }} ref={mapRef}>
         <TileLayer
           url="https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ29uemFsb2dkZXZlbG9wZXJnaXMiLCJhIjoiY2x5MzlzZGR5MDU5bDJqcXZ6ZWpycjIzdyJ9.pzB_r6AtS_RJzNZrv7a4pQ"
           attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> contributors'
