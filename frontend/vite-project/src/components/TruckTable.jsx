@@ -1,4 +1,3 @@
-// src/components/TruckTable.jsx
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination } from '@mui/material';
 import '../styles/TruckTable.css';
@@ -8,6 +7,7 @@ function TruckTable({ trucks, onRowClick }) {
   const [rowsPerPage] = useState(20);
   const [selectedRow, setSelectedRow] = useState(null);
 
+  // TODO: Connect this with API.
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

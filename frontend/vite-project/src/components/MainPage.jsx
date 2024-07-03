@@ -1,4 +1,3 @@
-// src/components/MainPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchData } from '../utils/fetchData';
