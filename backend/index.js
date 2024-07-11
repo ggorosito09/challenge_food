@@ -1,12 +1,10 @@
 import express from 'express';
 import axios from 'axios';
 import cors from 'cors'
+import config from '../config/config.js';
+
 const app = express();
-const PORT = 3000;
 // TODO: It would be good to have a way to shift between the outputs.
-const APP_URL_RAW = 'https://data.sfgov.org/resource/rqzj-sfat.json'
-const APP_URL_GEO = 'https://data.sfgov.org/resource/rqzj-sfat.geojson'
-const APP_TOKEN = "F3ChZibCo6q64PmptV4pkxfwE"
 
 // Enabling CORS
 app.use(cors());
@@ -22,12 +20,12 @@ app.get('/data', async (req, res) => {
             $q
         } = req.query
 
-        const response = await axios.get(APP_URL_GEO, {
+        const response = await axios.get(config.APP_URL_GEO, {
             params: {
                 $limit,
                 $offset,
                 $q,
-                $$app_token: APP_TOKEN // TODO : Set ENV later.
+                $$app_token: config.APP_TOKEN // TODO : Set ENV later.
             }
         })
 
@@ -64,5 +62,5 @@ app.get('/data', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${config.PORT}`);
 });
