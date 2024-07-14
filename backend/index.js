@@ -1,66 +1,24 @@
 import express from 'express';
-import axios from 'axios';
-import cors from 'cors'
-import config from '../config/config.js';
+import cors from 'cors';
+import router from './routes/router.js';
+import config from './config/config.js';
 
 const app = express();
-// TODO: It would be good to have a way to shift between the outputs.
+//const httpServer = http.createServer(app);
 
-// Enabling CORS
+// Middleware
 app.use(cors());
+app.use(express.json());
 
-// TODO: This should get separated in a particular router, then we can add middlewares for authentication, error, logging, etc.
-app.get('/data', async (req, res) => {
-    try {
+// Routes
+app.use("/", router);
 
-        const {
-            $limit,
-            $offset,
-            // By the time, this is the only paramter we receive from FE
-            $q
-        } = req.query
-
-        const response = await axios.get(config.APP_URL_GEO, {
-            params: {
-                $limit,
-                $offset,
-                $q,
-                $$app_token: config.APP_TOKEN // TODO : Set ENV later.
-            }
-        })
-
-        /**
-         * The API returns a lot of data
-         * - With/without coordinates.
-         * - Some of them without even "fooditems"
-         * - Many of them are not "APPROVED"
-         * 
-         * So here it is hardcoded a post processing of the items.
-         * We could manipulate this through the API SoQL
-         */
-        response.data.features = response.data.features.filter(
-            (truckFeature) => {
-                return truckFeature.properties &&
-                    truckFeature.properties.applicant &&
-                    truckFeature.properties.fooditems &&
-                    truckFeature.properties.latitude &&
-                    truckFeature.properties.latitude !== '0' &&
-                    truckFeature.properties.longitude &&
-                    truckFeature.properties.longitude !== '0' &&
-                    // approved recently
-                    truckFeature.properties.status &&
-                    truckFeature.properties.status === 'APPROVED' &&
-                    truckFeature.properties.approved &&
-                    new Date(truckFeature.properties.approved).getFullYear() >= 2020
-            }
-
-        );
-        res.json(response.data);
-    } catch (error) {
-        res.status(500).send(error.toString());
-    }
+app.get('/hola', async (req, res) => {
+    res.status(200).send("hola");
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${config.PORT}`);
+app.listen(config.PORT, () => {
+    console.info("Server connected.")
 });
+
+export default app;
