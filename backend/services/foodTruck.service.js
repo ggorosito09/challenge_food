@@ -1,12 +1,19 @@
 import axios from 'axios';
 import config from '../config/config.js';
+import NodeCache from 'node-cache';
 
 export default class FoodTruckService {
     constructor() {
-        // TODO: Support later Caching.
+        this.cache = new NodeCache({ stdTTL: 600 });
     }
 
-    async getData(query) {
+    getData = async (query) => {
+        const cacheKey = JSON.stringify(query);
+        const cachedData = this.cache.get(cacheKey);
+
+        if (cachedData) {
+            return cachedData;
+        }
 
         const { $limit, $offset, $q } = query;
 
@@ -44,6 +51,7 @@ export default class FoodTruckService {
                 new Date(truckFeature.properties.approved).getFullYear() >= 2020
         );
 
+        this.cache.set(cacheKey, filteredData);
 
         return filteredData;
     }
